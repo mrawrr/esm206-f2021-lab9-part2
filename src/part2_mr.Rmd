@@ -1,0 +1,46 @@
+---
+title: "part 2 chi squared with lizard's tails"
+author: "Meghna Rao"
+date: "11/23/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(janitor)
+library(broom)
+
+```
+
+### Read in data 
+```{r}
+lizards <- read_csv(here("data", "lizards.csv"))
+# lizards obs in live traps, species is spp, recaptured rcap, tail as broken or full
+# what is the proportion of lizards with broken tails by site
+```
+
+find counts of each lizard by species
+
+```{r}
+lizards %>% 
+  count(spp) %>% 
+  arrange(-n) # arrange in decreasing order by varibale n that contains the counts
+# utst is the most commonly observed lizard. western side blotched lizard
+```
+
+## make a subset
+
+- UTST lizards
+- sites: IBPE (enclosure grassland), RABB (rabbit mesquite site), "EAST" (east tarbush site)
+- tail condition is recorded (w= whole, b = broken)
+
+```{r}
+utst <- lizards %>% 
+  filter(spp == "UTST") %>% 
+  filter(site %in% c("IBPE", "RABB", "EAST")) %>% # look for any match within the vector that follows with %in%
+# can use unique(UTST$site) to return only the three sites we told it to keep. write this in the console 
+  filter(tail %in% c("B", "W"))
+```
+
